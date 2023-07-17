@@ -21,7 +21,7 @@ void execute(char *c)
 				args[1] = NULL;
 				/* execve(c, args, NULL); */
 				_execvp(c);
-				perror("execve");
+				perror(c);
 				_exit(EXIT_FAILURE);
 		}
 		else

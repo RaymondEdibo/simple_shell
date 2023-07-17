@@ -1,4 +1,11 @@
 #include "main.h"
+
+/**
+ * This _execvp function is for a dry run one,
+ * It is not meant to be used forever,
+ * like a temporary fix
+*/
+
 int _strlen(char *str);
 char  *_strcat(char *str1, char *str2);
 void _execvp(char *input)
@@ -6,13 +13,14 @@ void _execvp(char *input)
     char d[] = ":";
     char *sys_path = getenv("PATH");
     char *args[2];
+    pid_t pid;
 
     char *p_part = strtok(sys_path, d);
 
     while (p_part != NULL)
     {
-        char *e_command = _strcat(sys_path, input);
-        execve(e_command, args,NULL);
+        char *e_command = _strcat(p_part, input);
+        pid = execve(e_command, args,NULL);
         p_part = strtok(NULL, d);
     }
 
@@ -24,11 +32,14 @@ char  *_strcat(char *str1, char *str2)
     int i = 0, j = 0;
     while (str1[i])
     {
-        new_str += str1[i];
+        new_str[i] = str1[i];
         i++;
     }
 
-    while (str2[2])
+    new_str[i] += '/';
+    i++;
+
+    while (str2[j])
     {
         new_str[i] += str2[j];
         i++;
