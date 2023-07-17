@@ -13,5 +13,6 @@
 void prompt(void);
 ssize_t read_input(char *input, size_t max_l);
 void execute(char *c);
+void _execvp(char *input);
 
 #endif
