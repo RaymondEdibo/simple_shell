@@ -8,7 +8,9 @@
 void execute(char *c)
 {
 		pid_t pid = fork();
-		char *args[2];
+		char *args[] = {NULL};
+		extern char **environ;
+		char *t_cmd = path(c);
 
 		if (pid < 0)
 		{
@@ -17,10 +19,8 @@ void execute(char *c)
 		}
 		else if (pid == 0)
 		{
-				args[0] = c;
-				args[1] = NULL;
-				execve(c, args, NULL);
-				perror("execve");
+				execve(t_cmd, args, environ);
+				perror(c);
 				_exit(EXIT_FAILURE);
 		}
 		else
