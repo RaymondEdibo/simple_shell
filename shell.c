@@ -6,13 +6,13 @@
  */
 int main(void)
 {
-	char input[MAX_INPUT];
+	char input[BUFFER];
 	ssize_t reader;
 
 	while (1)
 	{
 		prompt();
-		reader = read_input(input, MAX_INPUT);
+		reader = read_input(input, BUFFER);
 
 		if (reader == 0)
 		{
