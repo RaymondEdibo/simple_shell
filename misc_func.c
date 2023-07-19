@@ -20,6 +20,8 @@ char *path(char *input)
 
 	char *p_part = strtok(path_arr_cpy, delim);
 
+	t_path = cmd;
+
 	while (p_part)
 	{
 		char *fp_cmd = p_concat(p_part, cmd);
@@ -76,4 +78,53 @@ char *resolve_r_path(char *input)
 	realpath(input, fr_path);
 
 	return (fr_path);
+}
+
+/**
+ * get_arguments - A function that gets cli args
+ * @input: The input given to the cli
+ * Return: An array of arguments
+*/
+
+char **get_arguments(char *input)
+{
+	char **args = malloc(sizeof(char *) * MAX_INPUT);
+	char delim[] = " ";
+	char *p_args = strtok(input, delim);
+	size_t i = 0, j = 0, l = 0;
+	char bash_variables[] = {'.', '/', '~'};
+
+	if (!args)
+		return (NULL);
+
+	while (p_args)
+	{
+		j = _strlen(p_args);
+		args[i] = malloc(sizeof(char) * (j + 1));
+		if (!args[i])
+		{
+			free(args);
+			return (NULL);
+		}
+
+		for (l = 0; bash_variables[l]; l++)
+		{
+			if (p_args[0] == bash_variables[l])
+			{
+				p_args = resolve_r_path(p_args);
+				j = _strlen(p_args);
+				break;
+			}
+		}
+
+		strncpy(args[i], p_args, j);
+		args[i][j] = '\0';
+
+		p_args = strtok(NULL, delim);
+		i++;
+	}
+
+	args[i] = NULL;
+
+	return (args);
 }

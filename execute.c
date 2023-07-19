@@ -9,7 +9,7 @@ void execute(char *c)
 {
 		pid_t pid = fork();
 		char *t_cmd = path(c);
-		char *args[] = {NULL};
+		char **args = get_arguments(c);
 
 		if (pid < 0)
 		{

@@ -23,6 +23,7 @@ char  *s_concat(char *str1, char *str2);
 int _strlen(char *str);
 char *resolve_r_path(char *input);
 const char *get_env_value(const char *name);
+char **get_arguments(char *input);
 
 
 extern char **environ;
