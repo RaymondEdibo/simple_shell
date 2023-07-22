@@ -17,7 +17,7 @@ int main(void)
 		if (reader == 0)
 		{
 			write(STDOUT_FILENO, "\n", 1);
-			_exit(EXIT_SUCCESS);
+			built_in_exit();
 		}
 
 		input[reader - 1] = '\0';

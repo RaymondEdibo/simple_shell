@@ -11,6 +11,10 @@ void execute(char *c)
 		char *t_cmd = path(c);
 		char **args = get_arguments(c);
 
+		if (_strcmp(c, "exit"))
+		{
+			built_in_exit();
+		}
 		if (pid < 0)
 		{
 			perror("fork");
