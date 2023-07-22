@@ -104,3 +104,40 @@ char  *s_concat(char *str1, char *str2)
 
 	return (new_str);
 }
+
+/**
+ * _strcmp - Compare two strings
+ * @i: first string
+ * @j: second string
+ * Return: 1 if equal, 0 otherwise
+ */
+int _strcmp(const char *i, const char *j)
+{
+    while (*i && *j)
+    {
+        if (*i != *j)
+            return 0;
+        i++;
+        j++;
+    }
+    return (*i == *j);
+}
+
+/**
+ * _atoi - Convert string to integer
+ * @str: The string to convert
+ * Return: The integer value, or -1 if invalid input
+ */
+int _atoi(char *a)
+{
+    int integer = 0;
+
+    while (*a)
+    {
+        if (*a < '0' || *a > '9')
+            return (-1);
+        integer = integer * 10 + (*a - '0');
+        a++;
+    }
+    return (integer);
+}

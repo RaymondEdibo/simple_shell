@@ -26,6 +26,7 @@ const char *get_env_value(const char *name);
 char **get_arguments(char *input);
 int _strcmp(const char *i, const char *j);
 void built_in_exit(void);
+int _atoi(char *a);
 
 extern char **environ;
 
