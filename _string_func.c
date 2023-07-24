@@ -12,7 +12,7 @@
 
 char *p_concat(char *path, char *command)
 {
-	char *new_str = malloc(sizeof(char) * (_strlen(path) + _strlen(command) + 1));
+	char *new_str = malloc(sizeof(char) * (_strlen(path) + _strlen(command) + 2));
 	int i = 0, j = 0;
 
 	while (path[i])
@@ -21,12 +21,12 @@ char *p_concat(char *path, char *command)
 		i++;
 	}
 
-	new_str[i] += '/';
+	new_str[i] = '/';
 	i++;
 
 	while (command[j])
 	{
-		new_str[i] += command[j];
+		new_str[i] = command[j];
 		i++;
 		j++;
 	}
@@ -113,31 +113,12 @@ char  *s_concat(char *str1, char *str2)
  */
 int _strcmp(const char *i, const char *j)
 {
-    while (*i && *j)
-    {
-        if (*i != *j)
-            return 0;
-        i++;
-        j++;
-    }
-    return (*i == *j);
-}
-
-/**
- * _atoi - Convert string to integer
- * @str: The string to convert
- * Return: The integer value, or -1 if invalid input
- */
-int _atoi(char *a)
-{
-    int integer = 0;
-
-    while (*a)
-    {
-        if (*a < '0' || *a > '9')
-            return (-1);
-        integer = integer * 10 + (*a - '0');
-        a++;
-    }
-    return (integer);
+	while (*i && *j)
+	{
+		if (*i != *j)
+			return (0);
+		i++;
+		j++;
+	}
+	return (*i == *j);
 }

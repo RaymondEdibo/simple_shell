@@ -7,5 +7,5 @@
  */
 void built_in_exit(void)
 {
-    _exit(EXIT_SUCCESS);
+	_exit(EXIT_SUCCESS);
 }

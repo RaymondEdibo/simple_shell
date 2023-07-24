@@ -16,12 +16,15 @@ char *path(char *input)
 	char *path_arr_cpy = strdup(path_arr);
 	struct stat file_exist;
 	char bash_variables[] = {'.', '/', '~'};
+	char bin_path[][PATH_MAX] = {"/usr/bin/", "/bin/"};
 	size_t i = 0;
-
 	char *p_part = strtok(path_arr_cpy, delim);
 
-	t_path = cmd;
+	for (i = 0; bin_path[i]; i++)
+		if (stat(s_concat(bin_path[i], cmd), &file_exist) == 0)
+			return (s_concat(bin_path[i], cmd));
 
+	t_path = cmd;
 	while (p_part)
 	{
 		char *fp_cmd = p_concat(p_part, cmd);
@@ -35,15 +38,9 @@ char *path(char *input)
 		p_part = strtok(NULL, delim);
 	}
 
-	while (bash_variables[i])
-	{
+	for (i = 0; bash_variables[i]; i++)
 		if (bash_variables[i] == tf_cmd[0])
-		{
 			t_path = resolve_r_path(cmd);
-		}
-
-		i++;
-	}
 
 	return (t_path);
 }
@@ -77,6 +74,9 @@ char *resolve_r_path(char *input)
 
 	realpath(input, fr_path);
 
+	free(input_cpy);
+	free(home_arr_cpy);
+
 	return (fr_path);
 }
 
@@ -100,7 +100,7 @@ char **get_arguments(char *input)
 	while (p_args)
 	{
 		j = _strlen(p_args);
-		args[i] = malloc(sizeof(char) * (j + 1));
+		args[i] = malloc(sizeof(char) * PATH_MAX);
 		if (!args[i])
 		{
 			free(args);
@@ -116,7 +116,6 @@ char **get_arguments(char *input)
 				break;
 			}
 		}
-
 		strncpy(args[i], p_args, j);
 		args[i][j] = '\0';
 
