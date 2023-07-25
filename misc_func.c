@@ -16,13 +16,15 @@ char *path(char *input)
 	char *path_arr_cpy = strdup(path_arr);
 	struct stat file_exist;
 	char bash_variables[] = {'.', '/', '~'};
-	char bin_path[][PATH_MAX] = {"/usr/bin/", "/bin/"};
+	char *bin_path[] = {"/usr/bin/", "/bin/"};
 	size_t i = 0;
 	char *p_part = strtok(path_arr_cpy, delim);
 
-	for (i = 0; bin_path[i]; i++)
+	for (i = 0; i < 2; i++)
+	{
 		if (stat(s_concat(bin_path[i], cmd), &file_exist) == 0)
 			return (s_concat(bin_path[i], cmd));
+	}
 
 	t_path = cmd;
 	while (p_part)
@@ -48,7 +50,6 @@ char *path(char *input)
 			return (t_path);
 		}
 	}
-
 	free(cmd);
 	return (t_path);
 }
