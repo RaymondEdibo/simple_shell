@@ -41,9 +41,16 @@ char *path(char *input)
 	}
 
 	for (i = 0; bash_variables[i]; i++)
+	{
 		if (bash_variables[i] == tf_cmd[0])
+		{
+			free(t_path);
 			t_path = resolve_r_path(cmd);
-
+			free(cmd);
+			return (t_path);
+		}
+	}
+	free(cmd);
 	return (t_path);
 }
 
@@ -64,6 +71,8 @@ char *resolve_r_path(char *input)
 	if (input[0] == '/')
 	{
 		fr_path = input_cpy;
+		free(home_arr_cpy);
+		free(input_cpy);
 		return (fr_path);
 	}
 
@@ -71,6 +80,8 @@ char *resolve_r_path(char *input)
 	{
 		input_cpy++;
 		fr_path = s_concat(home_arr_cpy, input_cpy);
+		free(input_cpy);
+		free(home_arr_cpy);
 		return (fr_path);
 	}
 
@@ -95,6 +106,7 @@ char **get_arguments(char *input)
 	char *p_args = strtok(input, delim);
 	size_t i = 0, j = 0, l = 0;
 	char bash_variables[] = {'.', '/', '~'};
+	size_t k;
 
 	if (!args)
 		return (NULL);
@@ -128,4 +140,10 @@ char **get_arguments(char *input)
 	args[i] = NULL;
 
 	return (args);
+
+	for (k = 0; k < i; k++)
+	{
+		free(args[k]);
+	}
+	free(args);
 }
