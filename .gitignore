@@ -4,3 +4,4 @@
 *.out
 .editorconfig
 !AUTHORS
+.*.swp

@@ -27,6 +27,10 @@ char **get_arguments(char *input);
 int _strcmp(const char *i, const char *j);
 void built_in_exit(void);
 int _atoi(char *a);
+char *_strncpy(char *dest, const char *src, size_t n);
+char *_strcpy(char *dest, const char *src);
+int _c_strlen(const char *str);
+char *r_path(char *input);
 
 extern char **environ;
 
