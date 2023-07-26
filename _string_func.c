@@ -34,7 +34,6 @@ char *p_concat(char *path, char *command)
 	new_str[i] = '\0';
 
 	return (new_str);
-	
 	free(new_str);
 }
 

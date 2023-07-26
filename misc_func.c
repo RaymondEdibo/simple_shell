@@ -5,7 +5,6 @@
  * @input: The input that is gotten from stdin
  * Return: The absolute path to the command
 */
-
 char *path(char *input)
 {
 	char *cmd = strdup(input);
@@ -13,10 +12,9 @@ char *path(char *input)
 	char *t_path = malloc(sizeof(char) * PATH_MAX);
 	char delim[] = ":";
 	const char *path_arr = get_env_value("PATH");
-	char *path_arr_cpy = strdup(path_arr);
 	struct stat file_exist;
-	char bash_variables[] = {'.', '/', '~'};
-	char *bin_path[] = {"/usr/bin/", "/bin/"};
+	char bash_variables[] = {'.', '/', '~'}, *bin_path[] = {"/usr/bin/", "/bin/"};
+	char *path_arr_cpy = strdup(path_arr);
 	size_t i = 0;
 	char *p_part = strtok(path_arr_cpy, delim);
 
@@ -25,7 +23,6 @@ char *path(char *input)
 		if (stat(s_concat(bin_path[i], cmd), &file_exist) == 0)
 			return (s_concat(bin_path[i], cmd));
 	}
-
 	t_path = cmd;
 	while (p_part)
 	{
@@ -36,10 +33,8 @@ char *path(char *input)
 			t_path = fp_cmd;
 			return (t_path);
 		}
-
 		p_part = strtok(NULL, delim);
 	}
-
 	for (i = 0; bash_variables[i]; i++)
 	{
 		if (bash_variables[i] == tf_cmd[0])
@@ -104,13 +99,11 @@ char **get_arguments(char *input)
 	char **args = malloc(sizeof(char *) * MAX_INPUT);
 	char delim[] = " ";
 	char *p_args = strtok(input, delim);
-	size_t i = 0, j = 0, l = 0;
+	size_t k, i = 0, j = 0, l = 0;
 	char bash_variables[] = {'.', '/', '~'};
-	size_t k;
 
 	if (!args)
 		return (NULL);
-
 	while (p_args)
 	{
 		j = _strlen(p_args);
@@ -120,7 +113,6 @@ char **get_arguments(char *input)
 			free(args);
 			return (NULL);
 		}
-
 		for (l = 0; bash_variables[l]; l++)
 		{
 			if (p_args[0] == bash_variables[l])
@@ -132,15 +124,11 @@ char **get_arguments(char *input)
 		}
 		strncpy(args[i], p_args, j);
 		args[i][j] = '\0';
-
 		p_args = strtok(NULL, delim);
 		i++;
 	}
-
 	args[i] = NULL;
-
 	return (args);
-
 	for (k = 0; k < i; k++)
 	{
 		free(args[k]);
