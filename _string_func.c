@@ -34,6 +34,7 @@ char *p_concat(char *path, char *command)
 	new_str[i] = '\0';
 
 	return (new_str);
+
 	free(new_str);
 }
 
@@ -46,8 +47,13 @@ char *p_concat(char *path, char *command)
 
 const char *get_env_value(const char *name)
 {
-	size_t name_len = strlen(name);
+	size_t name_len;
 	char **env_ptr = environ;
+
+	if (name == NULL || name[0] == '\0')
+		return (NULL);
+
+	name_len = _c_strlen(name);
 
 	while (*env_ptr)
 	{
@@ -57,22 +63,6 @@ const char *get_env_value(const char *name)
 	}
 
 	return (NULL);
-}
-
-/**
- * _strlen -  A function to get the length of the strings
- * @str: The string whose length is to be returned
- * Return: The number of characters in the string
-*/
-
-int _strlen(char *str)
-{
-	size_t i = 0;
-
-	for (i = 0; *str; i++)
-		str++;
-
-	return (i);
 }
 
 /**
@@ -96,7 +86,7 @@ char  *s_concat(char *str1, char *str2)
 
 	while (str2[j])
 	{
-		new_str[i] += str2[j];
+		new_str[i] = str2[j];
 		i++;
 		j++;
 	}
@@ -104,7 +94,6 @@ char  *s_concat(char *str1, char *str2)
 	new_str[i] = '\0';
 
 	return (new_str);
-	free(new_str);
 }
 
 /**
@@ -123,4 +112,54 @@ int _strcmp(const char *i, const char *j)
 		j++;
 	}
 	return (*i == *j);
+}
+
+/**
+ * r_path - Get the path of the first token
+ * @input: The whole input token
+ * Return: The absolute path of the executable
+*/
+
+char *r_path(char *input)
+{
+	char *t_path = malloc(sizeof(char) * PATH_MAX);
+	const char *path_arr = get_env_value("PATH");
+	char *path_arr_cpy = strdup(path_arr);
+	char bash_variables[] = {'.', '/', '~'};
+	char *cmd = strtok(input, " ");
+	struct stat file_exist;
+	size_t i = 0;
+	char delim[] = ":", *p_part = strtok(path_arr_cpy, delim);
+
+	if (!t_path || !p_part || !path_arr_cpy || !cmd)
+	{
+		free(t_path), free(p_part), free(path_arr_cpy), free(cmd);
+		return (NULL);
+	}
+	while (p_part)
+	{
+		char *fp_cmd = p_concat(p_part, cmd);
+
+		if (stat(fp_cmd, &file_exist) == 0)
+		{
+			free(t_path);
+			t_path = fp_cmd;
+			free(t_path);
+		}
+
+		free(fp_cmd);
+		p_part = strtok(NULL, delim);
+	}
+	for (i = 0; bash_variables[i]; i++)
+	{
+		if (bash_variables[i] == cmd[0])
+		{
+			free(t_path);
+			t_path = resolve_r_path(cmd);
+		}
+	}
+
+	free(p_part);
+
+	return (t_path);
 }

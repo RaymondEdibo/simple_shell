@@ -8,44 +8,23 @@
 char *path(char *input)
 {
 	char *cmd = strdup(input);
-	char *tf_cmd = strtok(cmd, " ");
 	char *t_path = malloc(sizeof(char) * PATH_MAX);
-	char delim[] = ":";
-	const char *path_arr = get_env_value("PATH");
+	char *f_path = strtok(cmd, " ");
 	struct stat file_exist;
-	char bash_variables[] = {'.', '/', '~'}, *bin_path[] = {"/usr/bin/", "/bin/"};
-	char *path_arr_cpy = strdup(path_arr);
+	char *bin_path[] = {"/usr/bin/", "/bin/"};
 	size_t i = 0;
-	char *p_part = strtok(path_arr_cpy, delim);
+
+	if (!cmd || !t_path)
+	{
+		free(cmd), free(t_path);
+		return (NULL);
+	}
 
 	for (i = 0; i < 2; i++)
-	{
-		if (stat(s_concat(bin_path[i], cmd), &file_exist) == 0)
-			return (s_concat(bin_path[i], cmd));
-	}
-	t_path = cmd;
-	while (p_part)
-	{
-		char *fp_cmd = p_concat(p_part, cmd);
+		if (stat(s_concat(bin_path[i], f_path), &file_exist) == 0)
+			return (s_concat(bin_path[i], f_path));
 
-		if (stat(fp_cmd, &file_exist) == 0)
-		{
-			t_path = fp_cmd;
-			return (t_path);
-		}
-		p_part = strtok(NULL, delim);
-	}
-	for (i = 0; bash_variables[i]; i++)
-	{
-		if (bash_variables[i] == tf_cmd[0])
-		{
-			free(t_path);
-			t_path = resolve_r_path(cmd);
-			free(cmd);
-			return (t_path);
-		}
-	}
-	free(cmd);
+	t_path = r_path(cmd);
 	return (t_path);
 }
 
@@ -63,30 +42,43 @@ char *resolve_r_path(char *input)
 	const char *home_arr = get_env_value("HOME");
 	char *home_arr_cpy = strdup(home_arr);
 
+	if (!input_cpy || !fr_path || !home_arr_cpy)
+	{
+		free(input_cpy);
+		free(fr_path);
+		free(home_arr_cpy);
+		return (NULL);
+	}
 	if (input[0] == '/')
 	{
-		fr_path = input_cpy;
 		free(home_arr_cpy);
-		free(input_cpy);
-		return (fr_path);
+		return (input_cpy);
 	}
-
 	if (input_cpy[0] == '~')
 	{
-		input_cpy++;
-		fr_path = s_concat(home_arr_cpy, input_cpy);
-		free(input_cpy);
-		free(home_arr_cpy);
-		return (fr_path);
-	}
+		char *r_path = s_concat(home_arr_cpy, input_cpy + 1);
 
-	realpath(input, fr_path);
+		if (r_path)
+		{
+			_strncpy(fr_path, r_path, PATH_MAX - 1);
+			free(r_path);
+		}
+		else
+		{
+			free(input_cpy);
+			free(fr_path);
+			free(home_arr_cpy);
+			return (NULL);
+	}
+	}
+	else
+		realpath(input, fr_path);
 
 	free(input_cpy);
 	free(home_arr_cpy);
-
 	return (fr_path);
 }
+
 
 /**
  * get_arguments - A function that gets cli args
@@ -99,7 +91,7 @@ char **get_arguments(char *input)
 	char **args = malloc(sizeof(char *) * MAX_INPUT);
 	char delim[] = " ";
 	char *p_args = strtok(input, delim);
-	size_t k, i = 0, j = 0, l = 0;
+	size_t i = 0, j = 0, l = 0;
 	char bash_variables[] = {'.', '/', '~'};
 
 	if (!args)
@@ -128,10 +120,8 @@ char **get_arguments(char *input)
 		i++;
 	}
 	args[i] = NULL;
+
+	free(p_args);
+
 	return (args);
-	for (k = 0; k < i; k++)
-	{
-		free(args[k]);
-	}
-	free(args);
 }
