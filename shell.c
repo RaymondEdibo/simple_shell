@@ -8,10 +8,12 @@ int main(void)
 {
 	char input[BUFFER];
 	ssize_t reader;
+	short int is_term = isatty(STDIN_FILENO);
 
 	while (1)
 	{
-		prompt();
+		if (is_term)
+			prompt();
 		reader = read_input(input, BUFFER);
 
 		if (reader == 0)
