@@ -5,7 +5,6 @@
  * @input: The input that is gotten from stdin
  * Return: The absolute path to the command
 */
-
 char *path(char *input)
 {
 	char *cmd = strdup(input);
@@ -97,7 +96,6 @@ char **get_arguments(char *input)
 
 	if (!args)
 		return (NULL);
-
 	while (p_args)
 	{
 		j = _strlen(p_args);
