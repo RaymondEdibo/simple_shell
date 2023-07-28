@@ -13,16 +13,16 @@ void execute(char *c)
 
 		if (pid < 0)
 		{
-				perror("fork");
-				_exit(EXIT_FAILURE);
+			perror("fork");
+			_exit(EXIT_FAILURE);
 		}
 		else if (pid == 0)
 		{
-				args[0] = c;
-				args[1] = NULL;
-				execve(c, args, environ);
-				perror("execve");
-				_exit(EXIT_FAILURE);
+			args[0] = c;
+			args[1] = NULL;
+			execve(c, args, environ);
+			perror("execve");
+			_exit(EXIT_FAILURE);
 		}
 		else
 		{

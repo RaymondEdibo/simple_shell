@@ -12,7 +12,7 @@ int main(void)
 
 	while (1)
 	{
-		if(is_term)
+		if (is_term)
 			prompt();
 
 		reader = read_input(input, MAX_INPUT);
