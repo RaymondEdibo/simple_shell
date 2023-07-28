@@ -1,29 +1,30 @@
-#ifndef MAIN_H
-#define MAIN_H
-
-#include <unistd.h>
+#ifndef _MAIN_H_
+#define _MAIN_H_
+#include <sys/wait.h>
+#include <sys/types.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <sys/stat.h>
-#include <stdio.h>
+#include <ctype.h>
+#include <unistd.h>
+#include <dirent.h>
 #include <limits.h>
-#include <linux/limits.h>
-#include <errno.h>
-
-#define BUFFER 1024
-#define ARGS_MAX 131072
-#define UNUSED __attribute__((unused))
-
-void prompt(void);
-ssize_t read_input(char *input, size_t max_l, short int _f);
-void execute(char *c, char *p_name, size_t i);
-char **get_arguments(char *input);
-void free_arguments(char **arguments);
-short int file_exists(char *input);
-char *_getenv(const char *name);
+#include <string.h>
 
 extern char **environ;
 
+void prompt(void);
+int _strlen(char *str);
+void my_puts(char *str);
+char *command_identifier(char *c);
+int _strcomp(char *a, char *b);
+int charwrite(char c);
+void my_puts(char *str);
+char *str_concat(char *a, char *b);
+int findslash(char *a);
+int checkexit(char *a, char *b);
+int envcheck(char *a, char *b);
+void execute_shell(char **a);
+char **check_string(char *s);
+void ctrlC(int s);
 #endif
