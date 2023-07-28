@@ -11,25 +11,21 @@ void execute(char *c)
 	char *t_cmd = path(c);
 	char **args = get_arguments(c);
 
-	if (t_cmd == NULL)
-		perror("NULL");
-
-	if (_strcmp(c, "exit"))
-		built_in_exit();
-	if (pid < 0)
-	{
-		perror("fork");
-		_exit(EXIT_FAILURE);
-	}
-	else if (pid == 0)
-	{
-		execve(t_cmd, args, environ);
-		perror("Execution failed");
-		_exit(EXIT_FAILURE);
-	}
-	else
-		wait(NULL);
-
-	free(t_cmd);
-	free(args);
+		if (pid < 0)
+		{
+				perror("fork");
+				_exit(EXIT_FAILURE);
+		}
+		else if (pid == 0)
+		{
+				args[0] = c;
+				args[1] = NULL;
+				execve(c, args, environ);
+				perror("execve");
+				_exit(EXIT_FAILURE);
+		}
+		else
+		{
+				wait(NULL);
+		}
 }

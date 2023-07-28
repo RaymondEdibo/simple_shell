@@ -34,4 +34,6 @@ char *r_path(char *input);
 
 extern char **environ;
 
+extern char **environ;
+
 #endif

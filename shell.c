@@ -12,14 +12,14 @@ int main(void)
 
 	while (1)
 	{
-		if (is_term)
+		if(is_term)
 			prompt();
-		reader = read_input(input, BUFFER);
+
+		reader = read_input(input, MAX_INPUT);
 
 		if (reader == 0)
 		{
-			write(STDOUT_FILENO, "\n", 1);
-			built_in_exit();
+			_exit(EXIT_SUCCESS);
 		}
 
 		input[reader - 1] = '\0';

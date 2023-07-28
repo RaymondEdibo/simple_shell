@@ -1,7 +1,6 @@
 *
 !/**/
-!*.*
-*.out
-.editorconfig
-!AUTHORS
 .*.swp
+!*.*
+.editorconfig
+
