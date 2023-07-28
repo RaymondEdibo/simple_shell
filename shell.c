@@ -8,15 +8,17 @@ int main(void)
 {
 	char input[MAX_INPUT];
 	ssize_t reader;
+	short int is_term = isatty(STDIN_FILENO);
 
 	while (1)
 	{
-		prompt();
+		if(is_term)
+			prompt();
+
 		reader = read_input(input, MAX_INPUT);
 
 		if (reader == 0)
 		{
-			write(STDOUT_FILENO, "\n", 1);
 			_exit(EXIT_SUCCESS);
 		}
 

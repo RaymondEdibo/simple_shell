@@ -19,7 +19,7 @@ void execute(char *c)
 		{
 				args[0] = c;
 				args[1] = NULL;
-				execve(c, args, NULL);
+				execve(c, args, environ);
 				perror("execve");
 				_exit(EXIT_FAILURE);
 		}

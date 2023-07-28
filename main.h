@@ -14,4 +14,6 @@ void prompt(void);
 ssize_t read_input(char *input, size_t max_l);
 void execute(char *c);
 
+extern char **environ;
+
 #endif
