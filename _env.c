@@ -8,7 +8,7 @@ char *_getenv(const char *name)
 	if (name == NULL || name[0] == '\0')
 		return (NULL);
 
-	name_len = _c_strlen(name);
+	name_len = strlen(name);
 
 	while (*env_ptr)
 	{
