@@ -6,7 +6,7 @@
  */
 int main(void)
 {
-	char input[MAX_INPUT];
+	char input[BUFFER];
 	ssize_t reader;
 	short int is_term = isatty(STDIN_FILENO);
 

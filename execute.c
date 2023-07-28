@@ -7,8 +7,9 @@
  */
 void execute(char *c)
 {
-		pid_t pid = fork();
-		char *args[2];
+	pid_t pid = fork();
+	char *t_cmd = path(c);
+	char **args = get_arguments(c);
 
 		if (pid < 0)
 		{
@@ -28,4 +29,3 @@ void execute(char *c)
 				wait(NULL);
 		}
 }
-
