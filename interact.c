@@ -13,7 +13,7 @@ int interact(info_t *srt)
 
 /**
  * isdelim - char is a delimeter
- * @c: the char 
+ * @c: the char
  * @delim: delimeter
  *
  * Return: 1 or 0

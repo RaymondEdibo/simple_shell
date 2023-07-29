@@ -29,7 +29,7 @@ int _my_exit(info_t *info)
 }
 
 /**
- * _my_cd - change current directory 
+ * _my_cd - change current directory
  * @info: Structure
  *
  * Return: Always 0
