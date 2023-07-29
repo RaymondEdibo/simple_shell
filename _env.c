@@ -1,5 +1,12 @@
 #include "main.h"
 
+/**
+ * _getenv - Get the environment variables in the form
+ * NAME=VALUE
+ * @name: The name of the environment
+ * Return: The value(s) of the NAME variable
+*/
+
 char *_getenv(const char *name)
 {
 	size_t name_len;
