@@ -1,7 +1,7 @@
 #include "main.h"
 
 /**
- * main - entry point
+ * main - shell program main
  * @ac: arg count
  * @av: arg vector
  *
@@ -9,7 +9,7 @@
  */
 int main(int ac, char **av)
 {
-	info_t a[] = { INFO_INIT };
+	info_t info[] = { INFO_IN_IT };
 	int fd = 2;
 
 	asm ("mov %1, %0\n\t"
@@ -26,20 +26,19 @@ int main(int ac, char **av)
 				exit(126);
 			if (errno == ENOENT)
 			{
-				_emy_puts(av[0]);
-				_emy_puts(": 0: Can't open ");
-				_emy_puts(av[1]);
-				_emy_putchar('\n');
-				_emy_putchar(BUFF_FLUSH);
+				_my_puts(av[0]);
+				_my_puts(": 0: Can't open ");
+				_my_puts(av[1]);
+				_my_putchar('\n');
+				_my_putchar(BUFF_FLUSH);
 				exit(127);
 			}
 			return (EXIT_FAILURE);
 		}
-		a->readfd = fd;
+		info->readfd = fd;
 	}
-	populate_envlist(a);
-	readhistory(a);
-	hsh(a, av);
+	_populate_env_list(info);
+	_rd_history(info);
+	my_shell(info, av);
 	return (EXIT_SUCCESS);
 }
-
