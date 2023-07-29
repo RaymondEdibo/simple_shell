@@ -1,36 +1,45 @@
 #include "main.h"
+
 /**
- * main - the Shell
- * @argc: Number
- * @argv: The char array
- * Return: result
+ * main - entry point
+ * @ac: arg count
+ * @av: arg vector
+ *
+ * Return: 0 on success, 1 on error
  */
-int main(UNUSED int argc, char *argv[])
+int main(int ac, char **av)
 {
-	char input[BUFFER];
-	ssize_t reader, i = 1;
+	info_t a[] = { INFO_INIT };
+	int fd = 2;
 
-	while (1)
+	asm ("mov %1, %0\n\t"
+			"add $3, %0"
+			: "=r" (fd)
+			: "r" (fd));
+
+	if (ac == 2)
 	{
-		short int is_term = isatty(STDIN_FILENO);
-
-		if (is_term)
-			prompt();
-
-		reader = read_input(input, MAX_INPUT, is_term);
-
-		if (reader == 0)
-			_exit(EXIT_SUCCESS);
-
-		input[reader - 1] = '\0';
-
-		if (reader > 1 && input[0] != '\0')
+		fd = open(av[1], O_RDONLY);
+		if (fd == -1)
 		{
-			execute(input, argv[0], i);
-			i++;
+			if (errno == EACCES)
+				exit(126);
+			if (errno == ENOENT)
+			{
+				_emy_puts(av[0]);
+				_emy_puts(": 0: Can't open ");
+				_emy_puts(av[1]);
+				_emy_putchar('\n');
+				_emy_putchar(BUFF_FLUSH);
+				exit(127);
+			}
+			return (EXIT_FAILURE);
 		}
+		a->readfd = fd;
 	}
-
+	populate_envlist(a);
+	readhistory(a);
+	hsh(a, av);
 	return (EXIT_SUCCESS);
-	i++;
 }
+
